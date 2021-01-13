@@ -1,3 +1,6 @@
+const colors = require('tailwindcss/colors')
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   future: {
     removeDeprecatedGapUtilities: true,
@@ -11,6 +14,9 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      sans: ["Poppins", ...defaultTheme.fontFamily.sans]
+    },
     extend: {
         screens: {
         'xsm': '360px',
@@ -23,9 +29,22 @@ module.exports = {
         'navBar': '768px'
       }
     },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      blue: colors.lightBlue,
+      gray: colors.gray,
+      red: colors.red,
+      yellow: colors.amber,
+      white: colors.white,
+    }
   },
   variants: {
-    extend: {},
+    extend: {
+      cursor: ['disabled'],
+      opacity: ['disabled'],
+      backgroundColor: ['disabled', 'active'],
+    }
   },
   plugins: [],
 }
