@@ -10,11 +10,13 @@ import {
 } from "react-icons/fa";
 import {useRouter} from "next/router";
 import {useExercise} from "endpoints/exercise/getExercise";
-import {useTeamSolutionList} from "endpoints/exercise/getTeamSolutionList";
+import {useTeamSolutionList} from "endpoints/team/solution/getTeamSolutionList";
 import Loading from "components/Loading";
 import Error from "components/Error";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
+import useRequest from "hooks/useRequest";
+import {sendTeamSolution} from "endpoints/team/solution/sendTeamSolution";
 
 const Wrapper = (props) => <div
   className="my-6 sm:mx-0 rounded-2xl bg-white shadow-lg p-6 whitespace-pre-wrap" {...props} />
@@ -49,7 +51,7 @@ const ExerciseContent = () => {
 const ExerciseSolutions = () => {
   const router = useRouter()
   const {exerciseId} = router.query
-  const {isError, isLoading: _isLoading, data, error} = useTeamSolutionList(exerciseId)
+  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(exerciseId)
   const isLoading = _isLoading || exerciseId == null
 
   if (isError)
@@ -91,14 +93,17 @@ const ExerciseSolutions = () => {
           )
         })}
       </Wrapper>
-      <FileUpload visible={data?.canSend}/>
+      <FileUpload visible={data?.canSend} refetch={refetch} />
     </>
   )
 }
 
-const FileUpload = ({visible}) => {
+const FileUpload = ({visible, refetch}) => {
   const [file, setFile] = useState(null)
   const [error, setError] = useState("")
+  const router = useRouter()
+  const {exerciseId} = router.query
+  const [request, { isRequestLoading, requestError }] = useRequest(sendTeamSolution)
   const onFileChange = (newFile) => {
     if (!newFile?.[0]) return
     if (file) return
@@ -113,10 +118,19 @@ const FileUpload = ({visible}) => {
     }
     setFile(newFile[0])
   }
-  const submit = () => {
-    setError("")
+  const submit = async () => {
+    const a = await request(exerciseId, file)
+    console.log(a)
+    if (refetch) refetch()
   }
   if (!visible) return null;
+  if (isRequestLoading)
+    return (
+      <Wrapper>
+        <h3 className="font-bold mb-4 text-lg">Rozwiązanie</h3>
+        <Loading />
+      </Wrapper>
+    )
   return (
     <Wrapper>
       <h3 className="font-bold mb-4 text-lg">Rozwiązanie</h3>
@@ -139,6 +153,7 @@ const FileUpload = ({visible}) => {
               <FaFile size="3em"/>
               <span className="mt-2 font-bold">{file.name}</span>
               <button
+                onClick={submit}
                 className="bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-lg px-8 py-3 uppercase mt-6 focus:outline-none focus-visible:ring-2 ring-offset-2">
                 wyślij
               </button>
@@ -155,8 +170,8 @@ const FileUpload = ({visible}) => {
         <span>Dozwolone rozszerzenia: py</span>
         <span>Maksymalny rozmiar: 2MB</span>
       </div>
-      {error && (
-        <div className="text-red-500 mt-2">{error}</div>
+      {(error || requestError) && (
+        <div className="text-red-500 mt-2">{(error || requestError)}</div>
       )}
     </Wrapper>
   )
