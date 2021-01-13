@@ -24,7 +24,7 @@ export const TopbarButton = ({children, href, disabled}) => {
 }
 
 const Topbar = ({ children }) => (
-  <div className="w-screen p-2 border-gray-200 border-b-2 bg-white flex align-center">
+  <div className="w-full p-2 border-gray-200 border-b-2 bg-white flex align-center sticky top-0">
     {children}
   </div>
 )
