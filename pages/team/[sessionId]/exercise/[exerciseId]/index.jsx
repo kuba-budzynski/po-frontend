@@ -6,14 +6,14 @@ import {
   FaFileUpload,
   FaLaptopCode,
   FaQuestionCircle,
-  FaSpinner
 } from "react-icons/fa";
+import {CgSpinner} from "react-icons/Cg";
 import {useRouter} from "next/router";
 import {useExercise} from "endpoints/exercise/getExercise";
 import {useTeamSolutionList} from "endpoints/team/solution/getTeamSolutionList";
 import Loading from "components/Loading";
 import Error from "components/Error";
-import { useState } from "react";
+import {useState, useEffect} from "react";
 import Dropzone from "react-dropzone";
 import useRequest from "hooks/useRequest";
 import {sendTeamSolution} from "endpoints/team/solution/sendTeamSolution";
@@ -50,9 +50,14 @@ const ExerciseContent = () => {
 
 const ExerciseSolutions = () => {
   const router = useRouter()
+  const [shouldRefetch, setShouldRefetch] = useState(false)
   const {exerciseId} = router.query
-  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(exerciseId)
+  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(exerciseId, shouldRefetch)
   const isLoading = _isLoading || exerciseId == null
+
+  useEffect(() => {
+    setShouldRefetch(data?.shouldRefetch)
+  }, [data?.shouldRefetch])
 
   if (isError)
     return <Error error={error}/>
@@ -67,17 +72,17 @@ const ExerciseSolutions = () => {
     <>
       <Wrapper>
         <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
-        {data?.solutions?.map(({file, id, sent, status, correctType}) => {
-          const {color, Icon} = correctType === -1
-            ? {color: "red", Icon: FaExclamationCircle}
-            : correctType === 0
-              ? {color: "gray", Icon: FaSpinner}
-              : {color: "green", Icon: FaCheck}
+        {data?.solutions?.map(({file, id, sent, status}) => {
+          const {color, icon} = status === "oczekujace"
+            ? {color: "gray", icon: <CgSpinner size="1.5em" className="animate-spin"/>}
+            : status === "poprawne"
+              ? {color: "green", icon: <FaCheck size="1.5em"/>}
+              : {color: "red", icon: <FaExclamationCircle size="1.5em"/>}
 
           return (
             <div key={id} className={`flex py-2 border-separate text-${color}-600`}>
               <div className="w-10 mr-4 flex items-center justify-center">
-                <Icon size="1.5em"/>
+                {icon}
               </div>
               <div className="mr-auto flex flex-col">
                 <span className="font-bold">{status}</span>
@@ -93,7 +98,7 @@ const ExerciseSolutions = () => {
           )
         })}
       </Wrapper>
-      <FileUpload visible={data?.canSend} refetch={refetch} />
+      <FileUpload visible={data?.canSend} refetch={refetch}/>
     </>
   )
 }
@@ -103,32 +108,40 @@ const FileUpload = ({visible, refetch}) => {
   const [error, setError] = useState("")
   const router = useRouter()
   const {exerciseId} = router.query
-  const [request, { isRequestLoading, requestError }] = useRequest(sendTeamSolution)
+  const [request, {isRequestLoading, requestError}] = useRequest(sendTeamSolution)
+
+  useEffect(() => {
+    if (!visible)
+      setFile(null)
+  }, [visible])
+
   const onFileChange = (newFile) => {
     if (!newFile?.[0]) return
     if (file) return
     setError("")
-    if (newFile[0].size > 2000000) {
-      setError("Plik ma zbyt duży rozmiar.")
-      return
-    }
     if (!newFile[0].name.endsWith(".py")) {
       setError("Plik ma niepoprawne rozszerzenie.")
       return
     }
+    if (newFile[0].size > 2000000) {
+      setError("Plik ma zbyt duży rozmiar.")
+      return
+    }
     setFile(newFile[0])
   }
+
   const submit = async () => {
     const a = await request(exerciseId, file)
     console.log(a)
     if (refetch) refetch()
   }
+
   if (!visible) return null;
   if (isRequestLoading)
     return (
       <Wrapper>
         <h3 className="font-bold mb-4 text-lg">Rozwiązanie</h3>
-        <Loading />
+        <Loading/>
       </Wrapper>
     )
   return (
@@ -139,7 +152,7 @@ const FileUpload = ({visible, refetch}) => {
           const className = "focus:border-blue-400 border-gray-300 border-dashed outline-none border-4 rounded-xl flex flex-col items-center justify-center mb-4 text-sm text-gray-500 p-8 text-center"
           if (!file)
             return (
-              <div {...getRootProps()} className={className}>
+              <div {...getRootProps()} className={`${className} cursor-pointer`}>
                 <input {...getInputProps()} />
                 <FaFileUpload size="3em"/>
                 <span className="mt-4">Przeciągnij plik tutaj</span>
@@ -152,6 +165,7 @@ const FileUpload = ({visible, refetch}) => {
             <div className={className}>
               <FaFile size="3em"/>
               <span className="mt-2 font-bold">{file.name}</span>
+              <span>{file.size}</span>
               <button
                 onClick={submit}
                 className="bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-lg px-8 py-3 uppercase mt-6 focus:outline-none focus-visible:ring-2 ring-offset-2">

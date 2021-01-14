@@ -10,8 +10,9 @@ const getTeamSolutionList = (exerciseId) => () => axios({
   },
 });
 
-export const useTeamSolutionList = (exerciseId) => useQueryData({
+export const useTeamSolutionList = (exerciseId, shouldRefetch) => useQueryData({
   queryKey: ['team', 'solution.list', exerciseId],
   queryFn: getTeamSolutionList(exerciseId),
   enabled: exerciseId != null,
+  refetchInterval: shouldRefetch ? 5000 : null,
 });
