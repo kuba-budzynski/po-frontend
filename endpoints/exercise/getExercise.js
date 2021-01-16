@@ -1,6 +1,6 @@
 import axios from "axios";
 import SETTINGS from "config/settings";
-import useQueryData from "endpoints/useQueryData";
+import useQueryData from "hooks/useQueryData";
 
 const getExercise = (exerciseId) => () => axios({
   method: 'GET',

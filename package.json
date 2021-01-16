@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
-    "next": "next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
@@ -17,6 +16,7 @@
     "postcss": "^8.2.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-dropzone": "^11.2.4",
     "react-icons": "^4.1.0",
     "react-query": "^3.5.12",
     "sass": "^1.32.2",

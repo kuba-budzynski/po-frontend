@@ -42,7 +42,8 @@ module.exports = {
     extend: {
       cursor: ['disabled'],
       opacity: ['disabled'],
-      backgroundColor: ['disabled', 'active'],
+      backgroundColor: ['disabled', 'active', 'focus-visible'],
+      ringWidth: ['focus-visible'],
     }
   },
   plugins: [],

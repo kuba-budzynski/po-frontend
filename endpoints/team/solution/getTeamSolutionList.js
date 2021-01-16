@@ -1,6 +1,6 @@
 import axios from "axios";
 import SETTINGS from "config/settings";
-import useQueryData from "endpoints/useQueryData";
+import useQueryData from "hooks/useQueryData";
 
 const getTeamSolutionList = (exerciseId) => () => axios({
   method: 'GET',
@@ -10,8 +10,9 @@ const getTeamSolutionList = (exerciseId) => () => axios({
   },
 });
 
-export const useTeamSolutionList = (exerciseId) => useQueryData({
+export const useTeamSolutionList = (exerciseId, shouldRefetch) => useQueryData({
   queryKey: ['team', 'solution.list', exerciseId],
   queryFn: getTeamSolutionList(exerciseId),
   enabled: exerciseId != null,
+  refetchInterval: shouldRefetch ? 5000 : null,
 });
