@@ -17,6 +17,10 @@ import {useState, useEffect} from "react";
 import Dropzone from "react-dropzone";
 import useRequest from "hooks/useRequest";
 import {sendTeamSolution} from "endpoints/team/solution/sendTeamSolution";
+import {FILE_SIZE_LIMIT, parseFileSize} from "util/file";
+import * as dayjs from "dayjs";
+import {DATE_FORMAT, TIME_FORMAT} from "util/date";
+import {SOLUTION_STATUS} from "util/print";
 
 const Wrapper = (props) => <div
   className="my-6 sm:mx-0 rounded-2xl bg-white shadow-lg p-6 whitespace-pre-wrap" {...props} />
@@ -70,9 +74,10 @@ const ExerciseSolutions = () => {
     )
   return (
     <>
+    {!!data?.solutions?.length && (
       <Wrapper>
         <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
-        {data?.solutions?.map(({file, id, sent, status}) => {
+        {data.solutions.map(({file, id, sent, status}) => {
           const {color, icon} = status === "oczekujace"
             ? {color: "gray", icon: <CgSpinner size="1.5em" className="animate-spin"/>}
             : status === "poprawne"
@@ -85,19 +90,20 @@ const ExerciseSolutions = () => {
                 {icon}
               </div>
               <div className="mr-auto flex flex-col">
-                <span className="font-bold">{status}</span>
+                <span className="font-bold">{SOLUTION_STATUS[status]}</span>
                 <span className="text-gray-500 text-sm">
-                  {sent}
+                  {dayjs(sent).format(`${DATE_FORMAT}, ${TIME_FORMAT}`)}
                 </span>
               </div>
               <div className="text-right flex flex-col">
                 <span className="font-bold text-gray-600">{file.name}</span>
-                <span className="text-gray-500 text-sm">{file.size}</span>
+                <span className="text-gray-500 text-sm">{parseFileSize(file.size)}</span>
               </div>
             </div>
           )
         })}
       </Wrapper>
+    )}
       <FileUpload visible={data?.canSend} refetch={refetch}/>
     </>
   )
@@ -123,7 +129,7 @@ const FileUpload = ({visible, refetch}) => {
       setError("Plik ma niepoprawne rozszerzenie.")
       return
     }
-    if (newFile[0].size > 2000000) {
+    if (newFile[0].size > FILE_SIZE_LIMIT) {
       setError("Plik ma zbyt duży rozmiar.")
       return
     }
@@ -165,7 +171,7 @@ const FileUpload = ({visible, refetch}) => {
             <div className={className}>
               <FaFile size="3em"/>
               <span className="mt-2 font-bold">{file.name}</span>
-              <span>{file.size}</span>
+              <span>{parseFileSize(file.size)}</span>
               <button
                 onClick={submit}
                 className="bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-lg px-8 py-3 uppercase mt-6 focus:outline-none focus-visible:ring-2 ring-offset-2">
@@ -182,7 +188,7 @@ const FileUpload = ({visible, refetch}) => {
       </Dropzone>
       <div className="flex justify-between text-gray-500 text-sm">
         <span>Dozwolone rozszerzenia: py</span>
-        <span>Maksymalny rozmiar: 2MB</span>
+        <span>Maksymalny rozmiar: {parseFileSize(FILE_SIZE_LIMIT)}</span>
       </div>
       {(error || requestError) && (
         <div className="text-red-500 mt-2">{(error || requestError)}</div>
