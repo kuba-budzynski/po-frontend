@@ -19,7 +19,7 @@ import useRequest from "hooks/useRequest";
 import {sendTeamSolution} from "endpoints/team/solution/sendTeamSolution";
 import {FILE_SIZE_LIMIT, parseFileSize} from "util/file";
 import * as dayjs from "dayjs";
-import {DATE_FORMAT, TIME_FORMAT} from "util/date";
+import {DATE_FORMAT, formatDuration, TIME_FORMAT} from "util/date";
 import {SOLUTION_STATUS} from "util/print";
 
 const Wrapper = (props) => <div
@@ -77,7 +77,7 @@ const ExerciseSolutions = () => {
     {!!data?.solutions?.length && (
       <Wrapper>
         <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
-        {data.solutions.map(({file, id, sent, status}) => {
+        {data.solutions.map(({file, id, sent, status, solutionTime}) => {
           const {color, icon} = status === "oczekujace"
             ? {color: "gray", icon: <CgSpinner size="1.5em" className="animate-spin"/>}
             : status === "poprawne"
@@ -90,7 +90,10 @@ const ExerciseSolutions = () => {
                 {icon}
               </div>
               <div className="mr-auto flex flex-col">
-                <span className="font-bold">{SOLUTION_STATUS[status]}</span>
+                <span className="font-bold">
+                    {SOLUTION_STATUS[status]}
+                    {status === "poprawne" && `, ${formatDuration(solutionTime)}`}
+                </span>
                 <span className="text-gray-500 text-sm">
                   {dayjs(sent).format(`${DATE_FORMAT}, ${TIME_FORMAT}`)}
                 </span>
