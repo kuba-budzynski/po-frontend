@@ -27,8 +27,8 @@ const Wrapper = (props) => <div
 
 const ExerciseContent = () => {
   const router = useRouter()
-  const {exerciseId} = router.query
-  const {isError, isLoading: _isLoading, data, error} = useExercise(exerciseId)
+  const {exerciseId, sessionId} = router.query
+  const {isError, isLoading: _isLoading, data, error} = useExercise(sessionId, exerciseId)
   const isLoading = _isLoading || exerciseId == null
 
   if (isError)
@@ -55,8 +55,8 @@ const ExerciseContent = () => {
 const ExerciseSolutions = () => {
   const router = useRouter()
   const [shouldRefetch, setShouldRefetch] = useState(false)
-  const {exerciseId} = router.query
-  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(exerciseId, shouldRefetch)
+  const {exerciseId, sessionId} = router.query
+  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(sessionId, exerciseId, shouldRefetch)
   const isLoading = _isLoading || exerciseId == null
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const FileUpload = ({visible, refetch}) => {
   const [file, setFile] = useState(null)
   const [error, setError] = useState("")
   const router = useRouter()
-  const {exerciseId} = router.query
+  const {exerciseId, sessionId} = router.query
   const [request, {isRequestLoading, requestError}] = useRequest(sendTeamSolution)
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const FileUpload = ({visible, refetch}) => {
   }
 
   const submit = async () => {
-    const a = await request(exerciseId, file)
+    const a = await request(sessionId, exerciseId, file)
     console.log(a)
     if (refetch) refetch()
   }
