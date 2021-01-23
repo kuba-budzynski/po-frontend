@@ -120,9 +120,9 @@ const FileUpload = ({visible, refetch}) => {
   const [request, {isRequestLoading, requestError}] = useRequest(sendTeamSolution)
 
   useEffect(() => {
-    if (!visible)
+    if (!visible || isRequestLoading)
       setFile(null)
-  }, [visible])
+  }, [visible, isRequestLoading])
 
   const onFileChange = (newFile) => {
     if (!newFile?.[0]) return
