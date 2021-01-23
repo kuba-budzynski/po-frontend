@@ -19,7 +19,7 @@ import useRequest from "hooks/useRequest";
 import {sendTeamSolution} from "endpoints/team/solution/sendTeamSolution";
 import {FILE_SIZE_LIMIT, parseFileSize} from "util/file";
 import * as dayjs from "dayjs";
-import {DATE_FORMAT, TIME_FORMAT} from "util/date";
+import {DATE_FORMAT, formatDuration, TIME_FORMAT} from "util/date";
 import {SOLUTION_STATUS} from "util/print";
 
 const Wrapper = (props) => <div
@@ -27,8 +27,8 @@ const Wrapper = (props) => <div
 
 const ExerciseContent = () => {
   const router = useRouter()
-  const {exerciseId} = router.query
-  const {isError, isLoading: _isLoading, data, error} = useExercise(exerciseId)
+  const {exerciseId, sessionId} = router.query
+  const {isError, isLoading: _isLoading, data, error} = useExercise(sessionId, exerciseId)
   const isLoading = _isLoading || exerciseId == null
 
   if (isError)
@@ -55,8 +55,8 @@ const ExerciseContent = () => {
 const ExerciseSolutions = () => {
   const router = useRouter()
   const [shouldRefetch, setShouldRefetch] = useState(false)
-  const {exerciseId} = router.query
-  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(exerciseId, shouldRefetch)
+  const {exerciseId, sessionId} = router.query
+  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(sessionId, exerciseId, shouldRefetch)
   const isLoading = _isLoading || exerciseId == null
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const ExerciseSolutions = () => {
     {!!data?.solutions?.length && (
       <Wrapper>
         <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
-        {data.solutions.map(({file, id, sent, status}) => {
+        {data.solutions.map(({file, id, sent, status, solutionTime}) => {
           const {color, icon} = status === "oczekujace"
             ? {color: "gray", icon: <CgSpinner size="1.5em" className="animate-spin"/>}
             : status === "poprawne"
@@ -90,7 +90,10 @@ const ExerciseSolutions = () => {
                 {icon}
               </div>
               <div className="mr-auto flex flex-col">
-                <span className="font-bold">{SOLUTION_STATUS[status]}</span>
+                <span className="font-bold">
+                    {SOLUTION_STATUS[status]}
+                    {status === "poprawne" && `, ${formatDuration(solutionTime)}`}
+                </span>
                 <span className="text-gray-500 text-sm">
                   {dayjs(sent).format(`${DATE_FORMAT}, ${TIME_FORMAT}`)}
                 </span>
@@ -113,13 +116,13 @@ const FileUpload = ({visible, refetch}) => {
   const [file, setFile] = useState(null)
   const [error, setError] = useState("")
   const router = useRouter()
-  const {exerciseId} = router.query
+  const {exerciseId, sessionId} = router.query
   const [request, {isRequestLoading, requestError}] = useRequest(sendTeamSolution)
 
   useEffect(() => {
-    if (!visible)
+    if (!visible || isRequestLoading)
       setFile(null)
-  }, [visible])
+  }, [visible, isRequestLoading])
 
   const onFileChange = (newFile) => {
     if (!newFile?.[0]) return
@@ -137,7 +140,7 @@ const FileUpload = ({visible, refetch}) => {
   }
 
   const submit = async () => {
-    const a = await request(exerciseId, file)
+    const a = await request(sessionId, exerciseId, file)
     console.log(a)
     if (refetch) refetch()
   }
