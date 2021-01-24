@@ -1,11 +1,7 @@
-import axios from "axios";
-import SETTINGS from "config/settings";
 import useQueryData from "hooks/useQueryData";
+import request from "../request";
 
-const getDashboard = (sessionId) => () => axios({
-  method: 'GET',
-  url: `${SETTINGS.apiRoot}/${sessionId}/dashboard`,
-});
+const getDashboard = (sessionId) => () => request.get(`dashboard/${sessionId}`);
 
 export const useDashboard = (sessionId) => useQueryData({
   queryKey: ['sessionId', sessionId],

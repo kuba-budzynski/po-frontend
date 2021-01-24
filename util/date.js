@@ -1,4 +1,4 @@
-import dateFormat from 'dateformat'
+import dayjs from "dayjs";
 
 export const DATE_FORMAT = "DD.MM.YYYY";
 export const TIME_FORMAT = "HH:mm";
@@ -13,10 +13,6 @@ export const formatDuration = (duration) => {
     return `${Math.floor(duration / 60)}h ${status}`;
 }
 
-export const formatDateToPrint = (date) => {
-    return dateFormat(date, "hh:MM dd.mm.yyyy")
-}
+export const formatDateToPrint = (date) => dayjs(date).format("HH:mm DD.MM.YYYY")
 
-export const formatHour = (date) => {
-    return dateFormat(date, "HH:MM:ss");
-}
+export const formatHour = (date) => dayjs(date).format("HH:mm:ss")

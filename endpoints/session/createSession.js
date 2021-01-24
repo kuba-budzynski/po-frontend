@@ -1,10 +1,9 @@
-import axios from "axios";
-import SETTINGS from "config/settings";
+import request from "../request";
 
 export const createSession = (nazwa, opis, rozszerzenia, start, koniec) => {
-  return axios({
+  return request({
     method: 'POST',
-    url: `${SETTINGS.apiRoot}/session`,
+    url: `session`,
     data: {
         name: nazwa,
         description: opis,

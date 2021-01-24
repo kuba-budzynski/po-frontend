@@ -27,8 +27,8 @@ const Wrapper = (props) => <div
 
 const ExerciseContent = () => {
   const router = useRouter()
-  const {exerciseId, sessionId} = router.query
-  const {isError, isLoading: _isLoading, data, error} = useExercise(sessionId, exerciseId)
+  const {exerciseId} = router.query
+  const {isError, isLoading: _isLoading, data, error} = useExercise(exerciseId)
   const isLoading = _isLoading || exerciseId == null
 
   if (isError)
@@ -55,8 +55,8 @@ const ExerciseContent = () => {
 const ExerciseSolutions = () => {
   const router = useRouter()
   const [shouldRefetch, setShouldRefetch] = useState(false)
-  const {exerciseId, sessionId} = router.query
-  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(sessionId, exerciseId, shouldRefetch)
+  const {exerciseId} = router.query
+  const {isError, isLoading: _isLoading, data, error, refetch} = useTeamSolutionList(exerciseId, shouldRefetch)
   const isLoading = _isLoading || exerciseId == null
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const FileUpload = ({visible, refetch}) => {
   const [file, setFile] = useState(null)
   const [error, setError] = useState("")
   const router = useRouter()
-  const {exerciseId, sessionId} = router.query
+  const {exerciseId} = router.query
   const [request, {isRequestLoading, requestError}] = useRequest(sendTeamSolution)
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const FileUpload = ({visible, refetch}) => {
   }
 
   const submit = async () => {
-    const a = await request(sessionId, exerciseId, file)
+    const a = await request(exerciseId, file)
     console.log(a)
     if (refetch) refetch()
   }
@@ -200,33 +200,24 @@ const FileUpload = ({visible, refetch}) => {
   )
 }
 
-const TeamExercise = () => {
-  const router = useRouter()
-  const {sessionId} = router.query
-  return (
-    <div>
-      <Topbar>
-        <TopbarButton
-          href={{
-            pathname: "/team/[sessionId]",
-            query: {sessionId}
-          }}
-        >
-          <FaLaptopCode className="mr-3"/> Zawody
-        </TopbarButton>
-        <TopbarButton disabled>
-          <FaQuestionCircle className="mr-3"/> Pytania i odpowiedzi
-        </TopbarButton>
-      </Topbar>
-      <main>
-        <div className="max-w-5xl mx-auto py-8 sm:px-6 px-4 lg:px-8">
-          <ExerciseContent/>
-          <ExerciseSolutions/>
-        </div>
-      </main>
-    </div>
-  )
-};
+const TeamExercise = () => (
+  <div>
+    <Topbar>
+      <TopbarButton href="/team">
+        <FaLaptopCode className="mr-3"/> Zawody
+      </TopbarButton>
+      <TopbarButton disabled>
+        <FaQuestionCircle className="mr-3"/> Pytania i odpowiedzi
+      </TopbarButton>
+    </Topbar>
+    <main>
+      <div className="max-w-5xl mx-auto py-8 sm:px-6 px-4 lg:px-8">
+        <ExerciseContent/>
+        <ExerciseSolutions/>
+      </div>
+    </main>
+  </div>
+)
 
 export default TeamExercise
 

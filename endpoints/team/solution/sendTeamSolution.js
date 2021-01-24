@@ -1,16 +1,12 @@
-import axios from "axios";
-import SETTINGS from "config/settings";
+import request from "../../request";
 
-export const sendTeamSolution = (sessionId, exerciseId, file) => {
+export const sendTeamSolution = (exerciseId, file) => {
   const formData = new FormData();
   formData.append('solutionFile', file);
 
-  return axios({
+  return request({
     method: 'POST',
-    url: `${SETTINGS.apiRoot}/team-panel/${sessionId}/exercise/${exerciseId}/solution`,
-    params: {
-      teamId: localStorage.getItem("teamId") || null,
-    },
+    url: `team-panel/exercise/${exerciseId}/solution`,
     headers: {
       'Content-Type': 'multipart/form-data',
     },

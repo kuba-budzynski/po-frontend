@@ -1,21 +1,18 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import Head from 'next/head'
-import {useRouter} from "next/router";
-import {useTeamDashboard}  from '../../../endpoints/teamDashboard/getTeamDashboard'
-import { Wrapper } from "components/Utils"
+import {useTeamDashboard} from '../../endpoints/teamDashboard/getTeamDashboard'
+import {Wrapper} from "components/Utils"
 import Loading from "components/Loading";
 import Error from "components/Error";
 import Topbar, {TopbarButton} from "components/Topbar";
 import {FaLaptopCode, FaQuestionCircle, FaSyncAlt} from "react-icons/fa";
 import ExerciseListItemWithStatus from 'components/Dashboard/ExerciseListItemWithStatus'
-import {formatHour} from '../../../util/date'
+import {formatHour} from '../../util/date'
 import RankingListItem from 'components/Dashboard/RankingListItem'
+import SETTINGS from "../../config/settings";
 
 function TeamPanel() {
-
-    const router = useRouter()
-    const {teamId} = router.query
-    const {isError, isLoading, data, error} = useTeamDashboard(teamId);
+    const {isError, isLoading, data, error} = useTeamDashboard();
     const [lastRanking, setLastRanking] = useState(new Date());
     let max = 5;
 
@@ -37,10 +34,12 @@ function TeamPanel() {
             </Wrapper>
         )
 
+    const teamId = SETTINGS.token()
+
     return (
         <div>
             <Head>
-                <title>Team Dashboard - {teamId}</title>
+                <title>Team Dashboard</title>
             </Head>
             <Topbar>
                 <TopbarButton>

@@ -1,5 +1,4 @@
 import React from 'react'
-import {formatDateToPrint} from '../../util/date'
 import Link from 'next/link'
 
 function ExerciseListItemWithStatus({name, number, session, id, status}) {
@@ -13,8 +12,8 @@ function ExerciseListItemWithStatus({name, number, session, id, status}) {
     }
 
     return (
-        <Link href={`/team/${session}/exercise/${id}`}>
-            <div className=" grid grid-cols-12 gap-2 group rounded-xl bg-white py-6 shadow-lg w-full px-8">
+        <Link href={`/team/exercise/${id}`}>
+            <div className=" grid grid-cols-12 gap-2 group rounded-xl bg-white py-6 shadow-lg w-full px-8 cursor-pointer">
                 <div className="col-span-1 flex flex-col justify-center">
                     <p className="text-4xl text-gray-500 font-bold text-center group-hover:text-gray-600">{number}</p>
                 </div>

@@ -1,18 +1,11 @@
-import axios from "axios";
-import SETTINGS from "config/settings";
 import useQueryData from "hooks/useQueryData";
+import request from "../../request";
 
-const getTeamSolutionList = (sessionId, exerciseId) => () => axios({
-  method: 'GET',
-  url: `${SETTINGS.apiRoot}/team-panel/${sessionId}/exercise/${exerciseId}/solution`,
-  params: {
-    teamId: localStorage.getItem("teamId") || null,
-  },
-});
+const getTeamSolutionList = (exerciseId) => () => request.get(`team-panel/exercise/${exerciseId}/solution`);
 
-export const useTeamSolutionList = (sessionId, exerciseId, shouldRefetch) => useQueryData({
-  queryKey: ['team', 'solution.list', sessionId, exerciseId],
-  queryFn: getTeamSolutionList(sessionId, exerciseId),
-  enabled: exerciseId != null && sessionId != null,
+export const useTeamSolutionList = (exerciseId, shouldRefetch) => useQueryData({
+  queryKey: ['team', 'solution.list', exerciseId],
+  queryFn: getTeamSolutionList(exerciseId),
+  enabled: exerciseId != null,
   refetchInterval: shouldRefetch ? 5000 : null,
 });

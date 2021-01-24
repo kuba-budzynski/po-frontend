@@ -1,15 +1,11 @@
-import axios from "axios";
-import SETTINGS from "config/settings";
 import useQueryData from "hooks/useQueryData";
+import request from "../request";
 
-const getSessions = () => () => axios({
-  method: 'GET',
-  url: `${SETTINGS.apiRoot}/session`
-});
+const getSessions = () => request.get(`session`);
 
 export const useSessions = () => useQueryData({
   queryKey: "session",
-  queryFn: getSessions(),
+  queryFn: getSessions,
   enabled: true,
   retry: true,
   refetchInterval: 5000

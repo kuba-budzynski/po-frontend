@@ -1,17 +1,10 @@
-import axios from "axios";
-import SETTINGS from "config/settings";
 import useQueryData from "hooks/useQueryData";
+import request from "../request";
 
-const getExercise = (sessionId, exerciseId) => () => axios({
-  method: 'GET',
-  url: `${SETTINGS.apiRoot}/${sessionId}/exercise/${exerciseId}`,
-  params: {
-    teamId: localStorage.getItem("teamId") || null,
-  },
-});
+const getExercise = (exerciseId) => () => request.get(`exercise/${exerciseId}`);
 
-export const useExercise = (sessionId, exerciseId) => useQueryData({
-  queryKey: ['user', 'exercise', sessionId, exerciseId],
-  queryFn: getExercise(sessionId, exerciseId),
-  enabled: exerciseId != null && sessionId != null,
+export const useExercise = (exerciseId) => useQueryData({
+  queryKey: ['user', 'exercise', exerciseId],
+  queryFn: getExercise(exerciseId),
+  enabled: exerciseId != null,
 });
