@@ -16,7 +16,7 @@ const useRequest = (promise = async () => {}) => {
         const data = await promise(...args);
         resolve(data);
       } catch (e) {
-        const errorMessage = e?.message || DEFAULT_ERROR;
+        const errorMessage = (e?.response?.data?.message ?? e?.message) || DEFAULT_ERROR;
         reject(errorMessage);
         setError(errorMessage)
       } finally {
