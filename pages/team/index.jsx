@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Head from 'next/head'
 import {useTeamDashboard} from '../../endpoints/teamDashboard/getTeamDashboard'
-import {Wrapper} from "components/Utils"
+import {Container, Wrapper} from "components/Utils"
 import Loading from "components/Loading";
 import Error from "components/Error";
 import Topbar, {TopbarButton} from "components/Topbar";
@@ -25,13 +25,19 @@ function TeamPanel() {
     }
 
     if (isError)
-        return <Error error={error}/>
+        return (
+            <Container>
+                <Error error={error}/>
+            </Container>
+        )
 
     if (isLoading)
         return (
-            <Wrapper>
-                <Loading/>
-            </Wrapper>
+            <Container>
+                <Wrapper>
+                    <Loading/>
+                </Wrapper>
+            </Container>
         )
 
     const teamId = SETTINGS.token()

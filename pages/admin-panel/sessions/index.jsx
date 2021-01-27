@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import SETTINGS from "config/settings";
 import { Transition } from '@headlessui/react'
@@ -14,7 +14,7 @@ import SideBar from 'components/SideBar'
 import Loading from "components/Loading";
 import Error from "components/Error";
 import { FaPlus } from "react-icons/fa";
-import { Wrapper, Astrisk, ErrorMessage } from "components/Utils"
+import {Wrapper, Astrisk, ErrorMessage, Container} from "components/Utils"
 
 export default function AdminPanelSessionList() {
 
@@ -89,13 +89,19 @@ export default function AdminPanelSessionList() {
   })
 
   if (isError)
-    return <Error error={error}/>
+    return (
+      <Container>
+        <Error error={error}/>
+      </Container>
+    )
 
   if (isLoading)
     return (
-      <Wrapper>
-        <Loading/>
-      </Wrapper>
+      <Container>
+        <Wrapper>
+          <Loading/>
+        </Wrapper>
+      </Container>
     )
 
   return (

@@ -7,5 +7,5 @@ export const useDashboard = (sessionId) => useQueryData({
   queryKey: ['sessionId', sessionId],
   queryFn: getDashboard(sessionId),
   enabled: sessionId != null,
-  refetchInterval: 1000,
+  refetchInterval: 5000,
 });

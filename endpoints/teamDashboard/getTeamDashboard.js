@@ -7,5 +7,5 @@ export const useTeamDashboard = () =>
   useQueryData({
     queryKey: ['teamDashboard'],
     queryFn: getTeamDashboard,
-    refetchInterval: 1000,
+    refetchInterval: 5000,
   });

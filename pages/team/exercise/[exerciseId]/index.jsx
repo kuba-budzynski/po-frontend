@@ -21,9 +21,7 @@ import {FILE_SIZE_LIMIT, parseFileSize} from "util/file";
 import * as dayjs from "dayjs";
 import {DATE_FORMAT, formatDuration, TIME_FORMAT} from "util/date";
 import {SOLUTION_STATUS} from "util/print";
-
-const Wrapper = (props) => <div
-  className="my-6 sm:mx-0 rounded-2xl bg-white shadow-lg p-6 whitespace-pre-wrap" {...props} />
+import {Wrapper} from "components/Utils";
 
 const ExerciseContent = () => {
   const router = useRouter()
@@ -32,7 +30,11 @@ const ExerciseContent = () => {
   const isLoading = _isLoading || exerciseId == null
 
   if (isError)
-    return <Error error={error}/>
+    return (
+        <Wrapper>
+          <Error error={error}/>
+        </Wrapper>
+      )
 
   if (isLoading)
     return (
