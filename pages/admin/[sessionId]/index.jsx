@@ -10,6 +10,7 @@ import ExerciseListItem from 'components/Dashboard/ExerciseListItem'
 import { Wrapper } from "components/Utils"
 import {formatHour} from '../../../util/date'
 import RankingListItem from 'components/Dashboard/RankingListItem';
+import Clock from 'components/Dashboard/Clock'
 
 export default function AdminDashboard() {
 
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     setLastRanking(new Date());
+    console.log(data);
   },[])
 
   if (isError)
@@ -55,11 +57,7 @@ export default function AdminDashboard() {
           </div>
         </div>
         <div className="w-1/2">
-          <div className="bg-white rounded-xl w-full px-4 py-4 text-center shadow-md">
-            {/* Dodać liczenie do końca */}
-            <p className="text-gray-500 font-extrabold text-5xl">1:34</p>
-            <p className="text-xs text-gray-400 font-semibold">do końca zawodów</p>
-          </div>
+          {data && <Clock start={data.sesja.start} end={data.sesja.end}></Clock>}
           <div className="w-full flex justify-between mt-16">
               <div>
                 <p className="text-4xl text-gray-500 font-bold ">Ranking</p>

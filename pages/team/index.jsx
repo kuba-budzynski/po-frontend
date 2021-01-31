@@ -9,6 +9,7 @@ import {FaLaptopCode, FaQuestionCircle, FaSyncAlt} from "react-icons/fa";
 import ExerciseListItemWithStatus from 'components/Dashboard/ExerciseListItemWithStatus'
 import {formatHour} from '../../util/date'
 import RankingListItem from 'components/Dashboard/RankingListItem'
+import Clock from 'components/Dashboard/Clock'
 import SETTINGS from "../../config/settings";
 
 function TeamPanel() {
@@ -19,6 +20,8 @@ function TeamPanel() {
      useEffect(() => {
         setLastRanking(new Date());
     },[])
+
+    console.log(data)
 
     const getStatus = (id) => {
         return Object.keys(data.solutions).includes(id) ? data.solutions[id].sort((a,b) => new Date(b.sent) - new Date(a.sent))[0].status : null
@@ -63,10 +66,7 @@ function TeamPanel() {
                     </div>
                 </div>
                 <div className="w-1/2">
-                    <div className="bg-white rounded-xl w-full px-4 py-4 text-center shadow-md">
-                        <p className="text-gray-500 font-extrabold text-5xl">1:34</p>
-                        <p className="text-xs text-gray-400 font-semibold">do końca zawodów</p>
-                    </div>
+                    {data && <Clock start={data.sesja.start} end={data.sesja.end}></Clock>}
                     <div className="w-full flex justify-between mt-16">
                         <div>
                             <p className="text-4xl text-gray-500 font-bold ">Ranking</p>
