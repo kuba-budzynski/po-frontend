@@ -6,5 +6,6 @@ module.exports = withImages({
   env: {
         "SERVER_IP": "145.239.83.230",
         "SERVER_PORT": 7000,
+        "API_ROOT": "https://app-back.tk:7000"
     },
 })
