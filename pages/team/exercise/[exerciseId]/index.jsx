@@ -6,8 +6,9 @@ import {
   FaFileUpload,
   FaLaptopCode,
   FaQuestionCircle,
+
 } from "react-icons/fa";
-import {CgSpinner} from "react-icons/Cg";
+import {ImSpinner5} from "react-icons/im";
 import {useRouter} from "next/router";
 import {useExercise} from "endpoints/exercise/getExercise";
 import {useTeamSolutionList} from "endpoints/team/solution/getTeamSolutionList";
@@ -81,7 +82,7 @@ const ExerciseSolutions = () => {
         <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
         {data.solutions.map(({file, id, sent, status, solutionTime}) => {
           const {color, icon} = status === "PENDING"
-            ? {color: "gray", icon: <CgSpinner size="1.5em" className="animate-spin"/>}
+            ? {color: "gray", icon: <ImSpinner5 size="1.5em" className="animate-spin"/>}
             : status === "CORRECT"
               ? {color: "green", icon: <FaCheck size="1.5em"/>}
               : {color: "red", icon: <FaExclamationCircle size="1.5em"/>}
