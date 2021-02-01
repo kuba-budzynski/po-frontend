@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 export const DATE_FORMAT = "DD.MM.YYYY";
 export const TIME_FORMAT = "HH:mm";
 
-export const formatDuration = (duration) => {
+export const formatDuration = (duration = 0) => {
     const minutes = `${duration % 60}m`;
 
     if (duration < 60)

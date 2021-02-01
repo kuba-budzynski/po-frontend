@@ -7,7 +7,7 @@ import Error from "components/Error";
 import Topbar, {TopbarButton} from "components/Topbar";
 import {FaLaptopCode, FaQuestionCircle, FaSyncAlt} from "react-icons/fa";
 import ExerciseListItemWithStatus from 'components/Dashboard/ExerciseListItemWithStatus'
-import {formatHour} from '../../util/date'
+import {formatDuration, formatHour} from '../../util/date'
 import RankingListItem from 'components/Dashboard/RankingListItem'
 import Clock from 'components/Dashboard/Clock'
 import SETTINGS from "../../config/settings";
@@ -42,6 +42,7 @@ function TeamPanel() {
         )
 
     const teamId = SETTINGS.token()
+    const team = data?.ranking.find((elem) => elem.id === teamId)
 
     return (
         <div>
@@ -64,7 +65,7 @@ function TeamPanel() {
                     </div>
                 </div>
                 <div className="w-1/2">
-                    {data && <Clock start={data.sesja.start} end={data.sesja.end}></Clock>}
+                    {data && <Clock start={data.sesja.start} end={data.sesja.end} />}
                     <div className="w-full flex justify-between mt-16">
                         <div>
                             <p className="text-4xl text-gray-500 font-bold ">Ranking</p>
@@ -78,15 +79,15 @@ function TeamPanel() {
                     </div>
                     <div className="w-full bg-white mt-5 mb-2 rounded-xl flex justify-around py-4 px-2 shadow-lg">
                         <div>
-                            <p className="font-bold text-2xl text-gray-500 text-center">{data && data.ranking.findIndex((elem) => elem.id == teamId) + 1}</p>
+                            <p className="font-bold text-2xl text-gray-500 text-center">{data?.ranking.findIndex((elem) => elem.id === teamId) + 1}</p>
                             <p className="text-center text-xs text-gray-400">miejsce w rankingu</p>
                         </div>
                         <div>
-                            <p className="font-bold text-2xl text-gray-500 text-center">{data && data.ranking.find((elem) => elem.id == teamId).completed}</p>
+                            <p className="font-bold text-2xl text-gray-500 text-center">{team?.completed}</p>
                             <p className="text-center text-xs text-gray-400">zaakceptowane rozwiązania</p>
                         </div>
                         <div>
-                            <p className="font-bold text-2xl text-gray-500 text-center">{data && data.ranking.find((elem) => elem.id == teamId).time}</p>
+                            <p className="font-bold text-2xl text-gray-500 text-center">{formatDuration(team?.time)}</p>
                             <p className="text-center text-xs text-gray-400">czas drużyny</p>
                         </div>
                     </div>
