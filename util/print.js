@@ -1,8 +1,8 @@
 export const SOLUTION_STATUS = {
-    "oczekujace": "Oczekujące",
-    "poprawne": "Poprawne",
-    "blad_prezentacji": "Błąd prezentacji",
-    "blad_kompilacji": "Błąd kompilacji",
-    "blad_czasowy": "Błąd czasowy",
-    "blad_wykonania": "Błąd wykonania",
+    "PENDING": "Oczekujące",
+    "CORRECT": "Poprawne",
+    "ERROR_PRESENTATION": "Błąd prezentacji",
+    "ERROR_COMPILATION": "Błąd kompilacji",
+    "ERROR_TIME": "Błąd czasowy",
+    "ERROR_EXECUTION": "Błąd wykonania",
 };

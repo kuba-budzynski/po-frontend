@@ -5,11 +5,11 @@ import {SOLUTION_STATUS} from "util/print";
 function ExerciseListItemWithStatus({name, number, session, id, status}) {
 
     const colors = {
-        "oczekujace": "text-blue-600",
-        "blad_kompilacji": "text-red-600",
-        "blad_prezentacji": "text-red-600",
-        "blad_wykonania": "text-red-600",
-        "poprawne": "text-green-600"
+        "PENDING": "text-blue-600",
+        "CORRECT": "text-green-600",
+        "ERROR_PRESENTATION": "text-red-600",
+        "ERROR_EXECUTION": "text-red-600",
+        "ERROR_TIME": "text-red-600",
     }
 
     return (

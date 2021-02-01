@@ -81,9 +81,9 @@ const ExerciseSolutions = () => {
       <Wrapper>
         <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
         {data.solutions.map(({file, id, sent, status, solutionTime}) => {
-          const {color, icon} = status === "oczekujace"
+          const {color, icon} = status === "PENDING"
             ? {color: "gray", icon: <FaSpinner size="1.5em" className="animate-spin"/>}
-            : status === "poprawne"
+            : status === "CORRECT"
               ? {color: "green", icon: <FaCheck size="1.5em"/>}
               : {color: "red", icon: <FaExclamationCircle size="1.5em"/>}
 
@@ -95,7 +95,7 @@ const ExerciseSolutions = () => {
               <div className="mr-auto flex flex-col">
                 <span className="font-bold">
                     {SOLUTION_STATUS[status]}
-                    {status === "poprawne" && `, ${formatDuration(solutionTime)}`}
+                    {status === "CORRECT" && `, ${formatDuration(solutionTime)}`}
                 </span>
                 <span className="text-gray-500 text-sm">
                   {dayjs(sent).format(`${DATE_FORMAT}, ${TIME_FORMAT}`)}
