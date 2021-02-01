@@ -22,7 +22,6 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     setLastRanking(new Date());
-    console.log(data);
   },[])
 
   if (isError)
@@ -38,7 +37,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <Head>
-        <title>Admin panel for {sessionId}</title>
+        <title>Session {sessionId}</title>
       </Head>
       <Topbar>
         <TopbarButton>

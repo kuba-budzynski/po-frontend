@@ -22,6 +22,7 @@ import * as dayjs from "dayjs";
 import {DATE_FORMAT, formatDuration, TIME_FORMAT} from "util/date";
 import {SOLUTION_STATUS} from "util/print";
 import {Wrapper} from "components/Utils";
+import Head from 'next/head'
 
 const ExerciseContent = () => {
   const router = useRouter()
@@ -80,9 +81,9 @@ const ExerciseSolutions = () => {
       <Wrapper>
         <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
         {data.solutions.map(({file, id, sent, status, solutionTime}) => {
-          const {color, icon} = status === "PENDING"
+          const {color, icon} = status === "oczekujace"
             ? {color: "gray", icon: <FaSpinner size="1.5em" className="animate-spin"/>}
-            : status === "CORRECT"
+            : status === "poprawne"
               ? {color: "green", icon: <FaCheck size="1.5em"/>}
               : {color: "red", icon: <FaExclamationCircle size="1.5em"/>}
 
@@ -94,7 +95,7 @@ const ExerciseSolutions = () => {
               <div className="mr-auto flex flex-col">
                 <span className="font-bold">
                     {SOLUTION_STATUS[status]}
-                    {status === "CORRECT" && `, ${formatDuration(solutionTime)}`}
+                    {status === "poprawne" && `, ${formatDuration(solutionTime)}`}
                 </span>
                 <span className="text-gray-500 text-sm">
                   {dayjs(sent).format(`${DATE_FORMAT}, ${TIME_FORMAT}`)}
@@ -143,7 +144,6 @@ const FileUpload = ({visible, refetch}) => {
 
   const submit = async () => {
     const a = await request(exerciseId, file)
-    console.log(a)
     if (refetch) refetch()
   }
 
@@ -204,6 +204,9 @@ const FileUpload = ({visible, refetch}) => {
 
 const TeamExercise = () => (
   <div>
+    <Head>
+      <title>Upload new Solution</title>
+    </Head>
     <Topbar>
       <TopbarButton href="/team">
         <FaLaptopCode className="mr-3"/> Zawody

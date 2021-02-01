@@ -21,8 +21,6 @@ function TeamPanel() {
         setLastRanking(new Date());
     },[])
 
-    console.log(data)
-
     const getStatus = (id) => {
         return Object.keys(data.solutions).includes(id) ? data.solutions[id].sort((a,b) => new Date(b.sent) - new Date(a.sent))[0].status : null
     }

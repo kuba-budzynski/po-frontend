@@ -4,11 +4,11 @@ import Link from 'next/link'
 function ExerciseListItemWithStatus({name, number, session, id, status}) {
 
     const colors = {
-        "PENDING": "text-blue-600",
-        "ERROR_COMPILATION": "text-red-600",
-        "ERROR_PRESENTATION": "text-red-600",
-        "ERROR_EXECUTION": "text-red-600",
-        "CORRECT": "text-green-600"
+        "oczekujace": "text-blue-600",
+        "blad_kompilacji": "text-red-600",
+        "blad_prezentacji": "text-red-600",
+        "blad_wykonania": "text-red-600",
+        "poprawne": "text-green-600"
     }
 
     return (
@@ -19,7 +19,7 @@ function ExerciseListItemWithStatus({name, number, session, id, status}) {
                 </div>
                 <div className="col-span-11 flex flex-col justify-center ml-4">
                     <p className="text-gray-500 font-bold text-2xl group-hover:text-gray-600">{name}</p>
-                    <p className={`text-sm ${colors[status] ?? "text-gray-400"}`}>{status != null ? status : "NOT STARTED YET"}</p>                    
+                    <p className={`text-sm ${colors[status] ?? "text-gray-400"}`}>{status != null ? status : "nie rozpoczęte"}</p>                    
                 </div>
             </div>
         </Link>
