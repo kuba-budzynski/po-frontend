@@ -60,7 +60,7 @@ export default function AdminDashboard() {
           <div className="w-full flex justify-between mt-16">
               <div>
                 <p className="text-4xl text-gray-500 font-bold ">Ranking</p>
-                <p className="text-sm text-gray-400 mt-2 italic">ostatnia aktualizacja {formatHour(lastRanking)}</p>
+                <p className="text-sm text-gray-400 mt-2 italic">{data && data.sesja.isFrozen ? "ranking zamrożony" : <span>ostatnia aktualizacja {formatHour(lastRanking)}</span>}</p>
               </div>
               <div className="flex flex-col justify-center">
                 <a className="p-2 bg-gray-200 rounded-lg hover:bg-gray-300" onClick={() => setLastRanking(new Date())}>
