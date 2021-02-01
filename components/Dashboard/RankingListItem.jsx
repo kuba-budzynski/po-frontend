@@ -1,6 +1,5 @@
 import React from 'react'
-import {formatDateToPrint} from '../../util/date'
-import Link from 'next/link'
+import {formatDuration} from 'util/date'
 
 function RankingListItem({number, title, school, correct, time, accent = false}) {
 
@@ -12,7 +11,7 @@ function RankingListItem({number, title, school, correct, time, accent = false})
                 <div className="ml-5 text-left col-span-11">
                     <p className="text-gray-500 font-bold text-md group-hover:text-blue-600">{title}</p> 
                     <p className="text-gray-400 text-xs italic group-hover:text-blue-600">{school}</p> 
-                    <p className="text-blue-600 text-xs font-bold">{correct} {correct == 1 ? "zadanie": correct > 4 || correct == 0 ? "zadań" : "zadania"}, {time}</p>                   
+                    <p className="text-blue-600 text-xs font-bold">{correct} {correct == 1 ? "zadanie": correct > 4 || correct == 0 ? "zadań" : "zadania"}, {formatDuration(time)}</p>
                 </div>
             </div>
     )

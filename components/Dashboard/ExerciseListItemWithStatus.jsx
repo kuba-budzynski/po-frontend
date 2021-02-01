@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import {SOLUTION_STATUS} from "util/print";
 
 function ExerciseListItemWithStatus({name, number, session, id, status}) {
 
@@ -19,7 +20,7 @@ function ExerciseListItemWithStatus({name, number, session, id, status}) {
                 </div>
                 <div className="col-span-11 flex flex-col justify-center ml-4">
                     <p className="text-gray-500 font-bold text-2xl group-hover:text-gray-600">{name}</p>
-                    <p className={`text-sm ${colors[status] ?? "text-gray-400"}`}>{status != null ? status : "nie rozpoczęte"}</p>                    
+                    <p className={`text-sm ${colors[status] ?? "text-gray-400"}`}>{status != null ? SOLUTION_STATUS[status] : "nie rozpoczęte"}</p>
                 </div>
             </div>
         </Link>
