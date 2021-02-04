@@ -50,14 +50,16 @@ function SideBar() {
             <div className="mt-16">
                 <Link href="/">
                     <a className="flex text-gray-500 hover:text-gray-600 cursor-pointer">
-                    <FaArrowLeft size="1rem"/>
-                    <span className="ml-2 font-bold">Wyjdz z panelu</span>
-                </a>
+                        <FaArrowLeft size="1rem"/>
+                        <span className="ml-2 font-bold">Wyjdz z panelu</span>
+                    </a>
                 </Link>
-                <a className="flex mt-6 text-red-600 hover:text-red-700 cursor-pointer">
-                    <FaDoorOpen size="1.3rem"/>
-                    <span className="ml-2 font-bold">Wyloguj</span>
-                </a>
+                <Link href="/">
+                    <a className="flex mt-6 text-red-600 hover:text-red-700 cursor-pointer">
+                        <FaDoorOpen size="1.3rem"/>
+                        <span className="ml-2 font-bold">Wyloguj</span>
+                    </a>
+                </Link>
             </div>
         </div>
     )
