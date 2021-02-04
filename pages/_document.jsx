@@ -10,8 +10,7 @@ class MyDocument extends Document {
     return (
       <Html lang="pl">
         <Head>
-            {/* TODO ADD DESCRIPTION */}
-            <meta name="description" content="" /> 
+            <meta name="description" content="System przeprowadzania zawodów w programowaniu zespołowym dla Politechniki Wrocławskiej.Projektowanie oprogramowania 2020/2021 - projekt zaliczeniowy Karol Sitarz i Jakub Budzyński." /> 
             <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
             <link rel="preconnect" href="https://fonts.gstatic.com" />
             <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet" />

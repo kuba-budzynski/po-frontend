@@ -48,6 +48,9 @@ function TeamPanel() {
         <div>
             <Head>
                 <title>Team Dashboard</title>
+                <meta name="description" content="This page allows a team to see their cuurent progress and choose exercise to add solution to. Team must be logged to use this route" /> 
+                <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <Topbar>
                 <TopbarButton>

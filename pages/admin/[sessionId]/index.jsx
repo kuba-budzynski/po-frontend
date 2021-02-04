@@ -37,7 +37,10 @@ export default function AdminDashboard() {
   return (
     <div>
       <Head>
-        <title>Session {sessionId}</title>
+        <title>Panel to view session data - {sessionId}</title>
+        <meta name="description" content="This page shows you important informations about a session. Useful informations for administrator." /> 
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Topbar>
         <TopbarButton>

@@ -205,8 +205,11 @@ const FileUpload = ({visible, refetch}) => {
 const TeamExercise = () => (
   <div>
     <Head>
-      <title>Upload new Solution</title>
-    </Head>
+        <title>Add new solution</title>
+        <meta name="description" content="This page allows a team to add new solution. Solution is verified and send back as feedback to the team" /> 
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
     <Topbar>
       <TopbarButton href="/team">
         <FaLaptopCode className="mr-3"/> Zawody

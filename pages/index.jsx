@@ -17,7 +17,12 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Home page</title>
+        <Head>
+        <title>Homepage</title>
+        <meta name="description" content="Home page for a system to manage competition in group programming for Wroclaw University of Technology." /> 
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       </Head>
       <main>
         <div className="max-w-5xl mx-auto py-8 sm:px-6 px-4 lg:px-8">

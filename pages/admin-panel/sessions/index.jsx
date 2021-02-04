@@ -105,7 +105,10 @@ export default function AdminPanelSessionList() {
   return (
     <div className="flex">
       <Head>
-        <title>Admin Panel - Sessions</title>
+        <title>Admin panel - sessions</title>
+        <meta name="description" content="This page allows admin to manage sessions. Adding session was out use case to make. Any other usage is not yet implemented" /> 
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
       <SideBar/>
