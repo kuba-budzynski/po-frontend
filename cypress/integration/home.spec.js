@@ -1,9 +1,8 @@
-import setting from '../../config/settings'
 
 describe("Testing home page", () => {
 
     beforeEach(() => {
-        cy.visit(setting.myRoot)
+        cy.visit('http://localhost:3000/')
     })
 
     afterEach(() => {

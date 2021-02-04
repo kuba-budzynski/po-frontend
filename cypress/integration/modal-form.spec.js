@@ -1,12 +1,11 @@
-import setting from '../../config/settings'
 import Chance from 'chance';
-
 const chance = new Chance();
 
 describe("Testing modal form", () => {
-
+    const apiRoot = 'http://localhost:7000'
+    const myRoot = 'http://localhost:3000'
     beforeEach(() => {
-        cy.visit(setting.myRoot+'/admin-panel/sessions');
+        cy.visit(myRoot+'/admin-panel/sessions');
         cy.get('#openModal').click();
     })
 
@@ -20,7 +19,7 @@ describe("Testing modal form", () => {
         cy.get('input[name="rozszerzenia"]').type("cpp, py, c++").should('have.value', "cpp, py, c++");
         cy.get('input[name="start"]').type("2022-01-01T11:25").should('have.value', "2022-01-01T11:25");
         cy.get('input[name="koniec"]').type("2022-01-01T14:00").should('have.value', "2022-01-01T14:00");
-        cy.intercept("POST", setting.apiRoot + '/session', {
+        cy.intercept("POST", apiRoot + '/session', {
             statusCode: 200
         })
         cy.contains("Zapisz").click()

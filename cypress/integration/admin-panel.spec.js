@@ -1,9 +1,8 @@
-import setting from '../../config/settings'
-
 describe("Testing admin-panel page", () => {
-
+    const apiRoot = 'http://localhost:7000'
+    const myRoot = 'http://localhost:3000'
     beforeEach(() => {
-        cy.visit(setting.myRoot+'/admin-panel/sessions')
+        cy.visit(myRoot+'/admin-panel/sessions')
     })
 
     afterEach(() => {

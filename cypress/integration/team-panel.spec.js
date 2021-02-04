@@ -1,10 +1,11 @@
-import setting from '../../config/settings'
 import moment from 'moment'
-import {formatHour} from '../../util/date'
+
 describe("Testing team-panel page", () => {
+    const apiRoot = 'http://localhost:7000';
+    const myRoot = 'http://localhost:3000';
 
     beforeEach(() => {
-        cy.visit(setting.myRoot+'/team')
+        cy.visit(myRoot + '/team')
     })
 
     afterEach(() => {
@@ -14,7 +15,7 @@ describe("Testing team-panel page", () => {
     it("Check clock before session", () => {
         cy.intercept({
             method: 'GET',
-            url: setting.apiRoot + '/team-panel/dashboard'
+            url: apiRoot + '/team-panel/dashboard'
         },{
             solutions: [],
             exercises: [],
@@ -25,13 +26,14 @@ describe("Testing team-panel page", () => {
             },
             ranking: []
         })
-        cy.get('#teamRanking').get("div > h1").should('contain', "Sesja się nie rozpoczęła");
+        cy.get('#teamRanking > h1').should('contain', "Sesja się nie rozpoczęła");
     })
 
     it("Check clock after session", () => {
+        console.log(apiRoot + '/team-panel/dashboard')
         cy.intercept({
             method: 'GET',
-            url: setting.apiRoot + '/team-panel/dashboard'
+            url: apiRoot + '/team-panel/dashboard'
         },{
             solutions: [],
             exercises: [],
@@ -42,13 +44,13 @@ describe("Testing team-panel page", () => {
             },
             ranking: []
         })
-        cy.get('#teamRanking').get("div > h1").should('contain', "Sesja się już zakończyła!");
+        cy.get('#teamRanking > h1').should('contain', "Sesja się już zakończyła!");
     })
 
     it("Check ranking freeze", () => {
         cy.intercept({
             method: 'GET',
-            url: setting.apiRoot + '/team-panel/dashboard'
+            url: apiRoot + '/team-panel/dashboard'
         },{
             solutions: [],
             exercises: [],
