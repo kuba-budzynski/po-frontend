@@ -65,8 +65,6 @@ export default function AdminPanelSessionList() {
       .max(250, 'Zbyt długi opis, maksymalnie 250 znaków'),
     rozszerzenia: yup.string()
       .max(100, 'Zbyt długi ciąg dozwolonych rozszerzeń')
-      .min(1, "Nie wybrano żadnego rozszerzenia")
-      .matches(/[^,]+/, "Rozszerzenia muszą być rodzielone przecinkiem")
       .required('Wymagane pole'),
     start: yup.date()
       .min(new Date(), "Nie można zacząć sesji w przeszłości")
@@ -115,18 +113,20 @@ export default function AdminPanelSessionList() {
       <div className="mx-auto w-1/2 max-w-4xl mt-16">
         <div className="flex justify-between w-full">
           <h1 className="font-bold text-gray-700 text-4xl">Sesje</h1>
-          <a className="bg-gray-200 p-2 rounded-md w-8 h-8 hover:bg-gray-300 cursor-pointer" onClick={() => setShowModal(true)}>
+          <a id="openModal" className="bg-gray-200 p-2 rounded-md w-8 h-8 hover:bg-gray-300 cursor-pointer" onClick={() => setShowModal(true)}>
             <FaPlus size="1em"/>
           </a>
         </div>
-          {data.map(m => (
-            <>
-              <h1 className="mt-8 mb-4 text-gray-600">{m.year}</h1>
-              <div className="space-y-5">
-                {m.sessions.map(s => <SessionListItem title={s.name} from={s.start} to={s.end} id={s.id}/>)}
-              </div>
-            </>
-          ))}
+          <div id="sessionDiv">
+            {data.map(m => (
+              <>
+                <h1 className="mt-8 mb-4 text-gray-600">{m.year}</h1>
+                <div className="space-y-5">
+                  {m.sessions.map(s => <SessionListItem title={s.name} from={s.start} to={s.end} id={s.id}/>)}
+                </div>
+              </>
+            ))}
+          </div>
           <Transition 
             show={showModal}
             enter="ease-out duration-300"
@@ -138,11 +138,11 @@ export default function AdminPanelSessionList() {
             >
             {
               <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div className="absolute inset-0 bg-gray-500 opacity-95"></div>
+                <div id="overlayDiv" className="absolute inset-0 bg-gray-500 opacity-95"></div>
               </div>
             }
           </Transition>
-          <div className={`fixed z-10 ${showModal ? "visable": "hidden"}` } style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
+          <div id="modalDiv" className={`fixed z-10 ${showModal ? "visable": "hidden"}` } style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
             
           <Transition
             show={showModal}
@@ -166,21 +166,21 @@ export default function AdminPanelSessionList() {
                           <label className="text-gray-400 font-light text-sm" for="nazwa">Nazwa sesji<Astrisk/></label>
                           <input id="nazwa" name="nazwa" required value={formik.values.nazwa} onChange={formik.handleChange} onBlur={formik.handleBlur}
                             className={`bg-gray-100 px-4 py-2 rounded-md text-sm w-full mt-1 shadow-md text-gray-500 focus:outline-none ${formik.touched.nazwa && formik.errors.nazwa ? "border-2 border-red-600": ""}`}/>
-                          {formik.touched.nazwa && formik.errors.nazwa ? <ErrorMessage msg={formik.errors.nazwa}/> : null}
+                          {formik.touched.nazwa && formik.errors.nazwa ? <ErrorMessage id="errorNazwa" msg={formik.errors.nazwa}/> : null}
                         </div>
 
                         <div>
                           <label className="text-gray-400 font-light text-sm" for="opis">Opis sesji</label>
                           <textarea id="opis" name="opis" rows={4} style={{maxHeight: "15rem", minHeight: "3rem"}} value={formik.values.opis} onChange={formik.handleChange} onBlur={formik.handleBlur}
                             className={`bg-gray-100 px-4 py-2 rounded-md text-sm w-full mt-1 shadow-md text-gray-500 focus:outline-none ${formik.touched.opis && formik.errors.opis ? "border-2 border-red-600": ""}`}/>
-                          {formik.touched.opis && formik.errors.opis ? <ErrorMessage msg={formik.errors.opis}/>: null}
+                          {formik.touched.opis && formik.errors.opis ? <ErrorMessage id="errorOpis" msg={formik.errors.opis}/>: null}
                         </div>
 
                         <div>
                           <label className="text-gray-400 font-light text-sm" for="rozszerzenia">Dozwolone rozszerzenia<Astrisk/></label>
                           <input id="rozszerzenia" name="rozszerzenia" placeholder="py, java, cpp" required value={formik.values.rozszerzenia} onChange={formik.handleChange} onBlur={formik.handleBlur}
                             className={`bg-gray-100 px-4 py-2 rounded-md text-sm w-full mt-1 shadow-md text-gray-500 focus:outline-none ${formik.touched.rozszerzenia && formik.errors.rozszerzenia ? "border-2 border-red-600": ""}`}/>
-                          {formik.touched.rozszerzenia && formik.errors.rozszerzenia ? <ErrorMessage msg={formik.errors.rozszerzenia}/>: null}
+                          {formik.touched.rozszerzenia && formik.errors.rozszerzenia ? <ErrorMessage id="errorRozszerzenia" msg={formik.errors.rozszerzenia}/>: null}
                         </div>
 
                         <div className="flex w-full space-x-8">
@@ -189,14 +189,14 @@ export default function AdminPanelSessionList() {
                             <label className="text-gray-400 font-light text-sm" for="start">Rozpoczęcie sesji<Astrisk/></label>
                             <input id="start" name="start" type="datetime-local" required value={formik.values.start} onChange={formik.handleChange} onBlur={formik.handleBlur}
                               className={`bg-gray-100 px-4 py-2 rounded-md text-sm w-full mt-1 shadow-md text-gray-500 focus:outline-none ${formik.touched.start && formik.errors.start ? "border-2 border-red-600": ""}`} />
-                            {formik.touched.start && formik.errors.start ? <ErrorMessage msg={formik.errors.start}/>: null}
+                            {formik.touched.start && formik.errors.start ? <ErrorMessage id="errorStart" msg={formik.errors.start}/>: null}
                           </div>
 
                           <div className="flex flex-col w-1/2">
                             <label className="text-gray-400 font-light text-sm" for="koniec">Zakończenie sesji<Astrisk/></label>
                             <input id="koniec" name="koniec" type="datetime-local" required value={formik.values.koniec} onChange={formik.handleChange} onBlur={formik.handleBlur}
                               className={`bg-gray-100 px-4 py-2 rounded-md text-sm w-full mt-1 shadow-md text-gray-500 focus:outline-none ${formik.touched.koniec && formik.errors.koniec ? "border-2 border-red-600": ""}`} />            
-                            {formik.touched.koniec && formik.errors.koniec ? <ErrorMessage msg={formik.errors.koniec}/>: null}
+                            {formik.touched.koniec && formik.errors.koniec ? <ErrorMessage id="errorKoniec" msg={formik.errors.koniec}/>: null}
                           </div>
 
                         </div>

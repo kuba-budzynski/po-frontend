@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 const moment = require('moment')
 
-function Clock({start, end}) {
+function Clock({id, start, end}) {
 
     const [tick, setTick] = useState("")
     const [inProcess, setInProcess] = useState(false)
@@ -17,7 +17,7 @@ function Clock({start, end}) {
                 setInProcess(true)
             }
             else if(startDate.isAfter(now)){
-                setTick("Sesja się jeszcze nie rozpoczęła")
+                setTick("Sesja się nie rozpoczęła")
                 setInProcess(false)
             }
             else if(endDate.isBefore(now)){
@@ -29,8 +29,8 @@ function Clock({start, end}) {
     }, [tick])
 
     return (
-        <div className="bg-white rounded-xl w-full px-4 py-4 text-center shadow-md">
-            {inProcess ? <p className="text-gray-500 font-extrabold text-5xl">{tick}</p>: <p className="text-gray-500 font-extrabold text-2xl">{tick}</p>}
+        <div id={id} className="bg-white rounded-xl w-full px-4 py-4 text-center shadow-md">
+            {inProcess ? <h1 className="text-gray-500 font-extrabold text-5xl">{tick}</h1>: <h1 className="text-gray-500 font-extrabold text-2xl">{tick}</h1>}
             {inProcess ? <p className="text-xs text-gray-400 font-semibold">do końca zawodów</p>: null}
         </div>
     )

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "e2e": "cypress open"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.1.5",
@@ -29,5 +30,9 @@
     "sass": "^1.32.2",
     "tailwindcss": "^2.0.2",
     "yup": "^0.32.8"
+  },
+  "devDependencies": {
+    "chance": "^1.1.7",
+    "cypress": "^6.4.0"
   }
 }
