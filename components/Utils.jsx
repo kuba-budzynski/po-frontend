@@ -6,4 +6,4 @@ export const Container = (props) => <div className="max-w-5xl mx-auto py-8 sm:px
 
 export const Astrisk = () => <span className="text-red-600 ">*</span>
 
-export const ErrorMessage = ({msg}) => <div className="w-full text-center text-red-600 mt-2 text-xs font-thin opacity-75">{msg}</div>
+export const ErrorMessage = ({id, msg}) => <div id={id} className="w-full text-center text-red-600 mt-2 text-xs font-thin opacity-75">{msg}</div>

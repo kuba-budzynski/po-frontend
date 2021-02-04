@@ -24,7 +24,7 @@ function TeamPanel() {
     const getStatus = (id) => {
         return Object.keys(data.solutions).includes(id) ? data.solutions[id].sort((a,b) => new Date(b.sent) - new Date(a.sent))[0].status : null
     }
-
+    console.log(data);
     if (isError)
         return (
             <Container>
@@ -65,14 +65,14 @@ function TeamPanel() {
                     </div>
                 </div>
                 <div className="w-1/2">
-                    {data && <Clock start={data.sesja.start} end={data.sesja.end} />}
+                    {data && <Clock id="teamRanking" start={data.sesja.start} end={data.sesja.end} />}
                     <div className="w-full flex justify-between mt-16">
                         <div>
                             <p className="text-4xl text-gray-500 font-bold ">Ranking</p>
-                            <p className="text-sm text-gray-400 mt-2 italic">{data && data.sesja.isFrozen ? "ranking zamrożony" : <span>ostatnia aktualizacja {formatHour(lastRanking)}</span>}</p>
+                            <p id="lastReload" className="text-sm text-gray-400 mt-2 italic">{data && data.sesja.isFrozen ? "ranking zamrożony" : <span>ostatnia aktualizacja {formatHour(lastRanking)}</span>}</p>
                         </div>
                         <div className="flex flex-col justify-center">
-                            <a className="p-2 bg-gray-200 rounded-lg hover:bg-gray-300" onClick={() => setLastRanking(new Date())}>
+                            <a  id="reloadButton" className="p-2 bg-gray-200 rounded-lg hover:bg-gray-300" onClick={() => setLastRanking(new Date())}>
                             <FaSyncAlt size="1rem"/>
                             </a>
                         </div>
