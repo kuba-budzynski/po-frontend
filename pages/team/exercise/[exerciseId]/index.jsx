@@ -32,10 +32,10 @@ const ExerciseContent = () => {
 
   if (isError)
     return (
-        <Wrapper>
-          <Error error={error}/>
-        </Wrapper>
-      )
+      <Wrapper>
+        <Error error={error}/>
+      </Wrapper>
+    )
 
   if (isLoading)
     return (
@@ -77,39 +77,39 @@ const ExerciseSolutions = () => {
     )
   return (
     <>
-    {!!data?.solutions?.length && (
-      <Wrapper>
-        <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
-        {data.solutions.map(({file, id, sent, status, solutionTime}) => {
-          const {color, icon} = status === "PENDING"
-            ? {color: "gray", icon: <FaSpinner size="1.5em" className="animate-spin"/>}
-            : status === "CORRECT"
-              ? {color: "green", icon: <FaCheck size="1.5em"/>}
-              : {color: "red", icon: <FaExclamationCircle size="1.5em"/>}
+      {!!data?.solutions?.length && (
+        <Wrapper data-test="solution_list">
+          <h3 className="font-bold text-lg mb-4">Historia rozwiązań</h3>
+          {data.solutions.map(({file, id, sent, status, solutionTime}) => {
+            const {color, icon} = status === "PENDING"
+              ? {color: "gray", icon: <FaSpinner size="1.5em" className="animate-spin"/>}
+              : status === "CORRECT"
+                ? {color: "green", icon: <FaCheck size="1.5em"/>}
+                : {color: "red", icon: <FaExclamationCircle size="1.5em"/>}
 
-          return (
-            <div key={id} className={`flex py-2 border-separate text-${color}-600`}>
-              <div className="w-10 mr-4 flex items-center justify-center">
-                {icon}
-              </div>
-              <div className="mr-auto flex flex-col">
+            return (
+              <div key={id} className={`flex py-2 border-separate text-${color}-600`}>
+                <div className="w-10 mr-4 flex items-center justify-center">
+                  {icon}
+                </div>
+                <div className="mr-auto flex flex-col">
                 <span className="font-bold">
                     {SOLUTION_STATUS[status]}
-                    {status === "CORRECT" && `, ${formatDuration(solutionTime)}`}
+                  {status === "CORRECT" && `, ${formatDuration(solutionTime)}`}
                 </span>
-                <span className="text-gray-500 text-sm">
+                  <span className="text-gray-500 text-sm">
                   {dayjs(sent).format(`${DATE_FORMAT}, ${TIME_FORMAT}`)}
                 </span>
+                </div>
+                <div className="text-right flex flex-col">
+                  <span className="font-bold text-gray-600">{file.name}</span>
+                  <span className="text-gray-500 text-sm">{parseFileSize(file.size)}</span>
+                </div>
               </div>
-              <div className="text-right flex flex-col">
-                <span className="font-bold text-gray-600">{file.name}</span>
-                <span className="text-gray-500 text-sm">{parseFileSize(file.size)}</span>
-              </div>
-            </div>
-          )
-        })}
-      </Wrapper>
-    )}
+            )
+          })}
+        </Wrapper>
+      )}
       <FileUpload visible={data?.canSend} refetch={refetch}/>
     </>
   )
@@ -143,7 +143,7 @@ const FileUpload = ({visible, refetch}) => {
   }
 
   const submit = async () => {
-    const a = await request(exerciseId, file)
+    await request(exerciseId, file)
     if (refetch) refetch()
   }
 
@@ -163,8 +163,8 @@ const FileUpload = ({visible, refetch}) => {
           const className = "focus:border-blue-400 border-gray-300 border-dashed outline-none border-4 rounded-xl flex flex-col items-center justify-center mb-4 text-sm text-gray-500 p-8 text-center"
           if (!file)
             return (
-              <div {...getRootProps()} className={`${className} cursor-pointer`}>
-                <input {...getInputProps()} />
+              <div {...getRootProps()} className={`${className} cursor-pointer`} data-test="upload_dropzone">
+                <input {...getInputProps()} data-test="upload_input"/>
                 <FaFileUpload size="3em"/>
                 <span className="mt-4">Przeciągnij plik tutaj</span>
                 <span>lub</span>
@@ -178,11 +178,13 @@ const FileUpload = ({visible, refetch}) => {
               <span className="mt-2 font-bold">{file.name}</span>
               <span>{parseFileSize(file.size)}</span>
               <button
+                data-test="upload_submit"
                 onClick={submit}
                 className="bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-lg px-8 py-3 uppercase mt-6 focus:outline-none focus-visible:ring-2 ring-offset-2">
                 wyślij
               </button>
               <button
+                data-test="upload_cancel"
                 onClick={() => setFile(null)}
                 className="bg-gray-200 hover:bg-gray-300 border border-gray-300 text-gray-500 font-bold rounded-lg px-4 py-2 uppercase mt-2 focus:outline-none focus-visible:ring-2 ring-offset-2">
                 anuluj
@@ -196,7 +198,7 @@ const FileUpload = ({visible, refetch}) => {
         <span>Maksymalny rozmiar: {parseFileSize(FILE_SIZE_LIMIT)}</span>
       </div>
       {(error || requestError) && (
-        <div className="text-red-500 mt-2">{(error || requestError)}</div>
+        <div className="text-red-500 mt-2" data-test="upload_error">{(error || requestError)}</div>
       )}
     </Wrapper>
   )
