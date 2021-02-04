@@ -23,3 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+import 'cypress-file-upload'
+
+Cypress.Commands.add("setTeam", (token) => {
+  window?.localStorage?.setItem('teamId', token)
+})
+Cypress.Commands.add('dropFile', {
+  prevSubject: true
+  }, (subject, fileName) => {
+    return cy.wrap(subject).attachFile(fileName, { subjectType: 'drag-n-drop', allowEmpty: true })
+  });
