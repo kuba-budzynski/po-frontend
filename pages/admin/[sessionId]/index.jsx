@@ -55,7 +55,7 @@ export default function AdminDashboard() {
         <div className="w-1/2 py-16">
           <h1 className="text-4xl font-bold text-gray-500">Zadania</h1>
           <div className="space-y-5 mt-6">
-            {data && data.exercises.map(z => <ExerciseListItem name={z.name} number={z.number} session={sessionId} id={z.id}/>)}
+            {data && data.exercises.map(z => <ExerciseListItem name={z.name} number={z.number} session={sessionId} id={z.id} key={z.id}/>)}
           </div>
         </div>
         <div className="w-1/2">

@@ -30,7 +30,6 @@ describe("Testing team-panel page", () => {
     })
 
     it("Check clock after session", () => {
-        console.log(apiRoot + '/team-panel/dashboard')
         cy.intercept({
             method: 'GET',
             url: apiRoot + '/team-panel/dashboard'

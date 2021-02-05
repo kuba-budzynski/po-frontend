@@ -4,7 +4,7 @@ import {formatDuration} from 'util/date'
 function RankingListItem({number, title, school, correct, time, accent = false}) {
 
     return (
-        <div className="grid grid-cols-12 gap-2 group bg-white w-full">
+        <div key={number} className="grid grid-cols-12 gap-2 group bg-white w-full">
                 <div className="col-span-1 flex justify-center items-center">
                     <p className={`text-4xl font-bold text-center px-4 py-1 ${accent ? "bg-gray-100 rounded-lg text-blue-600" : "text-gray-500"}`}>{number}</p>
                 </div>

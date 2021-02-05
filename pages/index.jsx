@@ -28,7 +28,7 @@ export default function Home() {
           <Wrapper>
             <h1 className="text-xl font-bold mb-4">Zaloguj jako drużyna</h1>
             <form onSubmit={onTeamSubmit}>
-              <label for="teamIdInput" htmlFor="teamIdInput" className="mr-2 font-bold">TeamId: </label>
+              <label htmlFor="teamIdInput" className="mr-2 font-bold">TeamId: </label>
               <input id="teamIdInput" name="teamIdInput" className="py-3 px-4 bg-gray-100 rounded-lg focus:outline-none focus-visible:ring-2 mr-2 w-1/3" value={teamId} onChange={(e) => setTeamId(e.target.value)} />
               <button id="teamButton" className="bg-blue-700 font-bold text-white px-5 py-3 rounded-lg shadow hover:bg-blue-900 focus-visible:ring-2 focus:outline-none" type="submit">Przejdź do panelu</button>
             </form>

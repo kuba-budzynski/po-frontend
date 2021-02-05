@@ -24,7 +24,8 @@ export default function AdminPanelSessionList() {
 
   const onSubmit = async (values, {setSubmitting, setErrors, setStatus, resetForm}) => {
     try {
-      const res = await axios.post(`${SETTINGS.apiRoot}/session`, {
+      const url = `${SETTINGS.apiRoot}/session`
+      const res = await axios.post(url, {
         name: values.nazwa,
         description: values.opis,
         allowedExtensions: values.rozszerzenia.split(",").map(r => r.trim()),

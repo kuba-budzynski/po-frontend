@@ -14,7 +14,7 @@ function ExerciseListItemWithStatus({name, number, session, id, status}) {
 
     return (
         <Link href={`/team/exercise/${id}`}>
-            <div className=" grid grid-cols-12 gap-2 group rounded-xl bg-white py-6 shadow-lg w-full px-8 cursor-pointer">
+            <div key={id} className=" grid grid-cols-12 gap-2 group rounded-xl bg-white py-6 shadow-lg w-full px-8 cursor-pointer">
                 <div className="col-span-1 flex flex-col justify-center">
                     <p className="text-4xl text-gray-500 font-bold text-center group-hover:text-gray-600">{number}</p>
                 </div>

@@ -3,6 +3,7 @@ import setting from '../../config/settings'
 const exerciseId = '5ffe158d66799d1dd4767ef2'
 const teamId = '5ffdea931b0b224a68fd6a10'
 const apiRoot = 'http://localhost:7000'
+const myRoot = "http://localhost:3000"
 const solutionList = {
     method: 'GET',
     url: apiRoot + '/team-panel/exercise/' + exerciseId + '/solution'
@@ -11,7 +12,7 @@ const solutionList = {
 describe("Testing team solution upload", () => {
     before(() => {
         cy.setTeam(teamId)
-        cy.visit(setting.myRoot + '/team/exercise/' + exerciseId)
+        cy.visit(myRoot + '/team/exercise/' + exerciseId)
     })
 
     afterEach(() => {
